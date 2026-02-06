@@ -5,6 +5,22 @@ export interface ThemeConfig {
   profile: Profile;
   base: Base;
   style: Style;
+  development: Development;
+  music?: MusicConfig;
+}
+
+export interface MusicConfig {
+  enable: boolean;
+  server_url: string;
+  username: string;
+  password: string;
+  mode: "random" | "playlist";
+  playlist_id: string;
+  song_count: number;
+}
+
+export interface Development {
+  enabled: boolean;
 }
 
 export interface Post {

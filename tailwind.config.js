@@ -55,6 +55,14 @@ export default {
         "icon-[material-symbols--readiness-score-outline-rounded]",
         "icon-[material-symbols--ar-stickers-outline]",
         "icon-[material-symbols--close-rounded]",
+
+        // 音乐播放器图标
+        "icon-[material-symbols--music-note-rounded]",
+        "icon-[material-symbols--play-arrow-rounded]",
+        "icon-[material-symbols--pause-rounded]",
+        "icon-[material-symbols--skip-previous-rounded]",
+        "icon-[material-symbols--skip-next-rounded]",
+        "icon-[material-symbols--album]",
     ],
     theme: {
         extend: {

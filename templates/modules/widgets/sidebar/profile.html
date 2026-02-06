@@ -18,7 +18,7 @@
       th:with="currentUser = ${contributorFinder.getContributor(#authentication.name)}"
       th:src="${profile.auto_avatar == true ? currentUser.avatar?:profile.avatar : profile.avatar}"
       alt="Profile Image of the Author"
-      class="mx-auto h-full lg:mt-0 lg:w-full"
+      class="mx-auto h-full transition-transform duration-500 ease-out group-hover:scale-105 lg:mt-0 lg:w-full"
     />
   </a>
   <div class="px-2">

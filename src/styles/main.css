@@ -1,4 +1,20 @@
 
+/* ===== Distortion Text Container ===== */
+.distortion-container {
+  width: 100%;
+  max-width: var(--page-width);
+  height: 12rem;
+  margin: 0 auto;
+  cursor: default;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+@media (max-width: 768px) {
+  .distortion-container {
+    height: 8rem;
+  }
+}
 
 #search {
   input:focus {
@@ -14,4 +30,93 @@
 
 :root {
   --halo-cw-primary-1-color: var(--primary);
+}
+
+/* ===== Rainbow Mode ===== */
+@keyframes rainbow-rotate {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+@keyframes rainbow-rotate-reverse {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(-360deg); }
+}
+
+html.is-rainbow-mode .card-base {
+  animation: rainbow-rotate linear infinite;
+  animation-duration: var(--rainbow-duration, 5s);
+}
+
+/* Reverse filter for images/videos to preserve original colors */
+html.is-rainbow-mode .card-base img,
+html.is-rainbow-mode .card-base video,
+html.is-rainbow-mode .card-base iframe,
+html.is-rainbow-mode .card-base .no-hue-rotate {
+  animation: rainbow-rotate-reverse linear infinite;
+  animation-duration: var(--rainbow-duration, 5s);
+}
+
+/* ===== Background Image ===== */
+body.has-bg-image::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--bg-image);
+  background-position: var(--bg-position, center);
+  background-size: var(--bg-size, cover);
+  background-repeat: var(--bg-repeat, no-repeat);
+  background-attachment: var(--bg-attachment, fixed);
+  opacity: var(--bg-opacity, 1);
+  filter: blur(var(--bg-blur, 0px));
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Prevent theme-switch flash: disable transitions briefly */
+html.no-transition,
+html.no-transition *,
+html.no-transition *::before,
+html.no-transition *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* ===== Announcement / Notice Bar ===== */
+.notice-info .notice-content { border-color: var(--admonitions-color-note); color: var(--admonitions-color-note); }
+.notice-tip .notice-content { border-color: var(--admonitions-color-tip); color: var(--admonitions-color-tip); }
+.notice-important .notice-content { border-color: var(--admonitions-color-warning); color: var(--admonitions-color-warning); }
+.notice-warning .notice-content { border-color: var(--admonitions-color-caution); color: var(--admonitions-color-caution); }
+
+.notice-happy .notice-content {
+  --notice-gradient: linear-gradient(
+    90deg,
+    oklch(0.78 0.18 calc(var(--hue) + 0)),
+    oklch(0.78 0.18 calc(var(--hue) + 60)),
+    oklch(0.78 0.18 calc(var(--hue) + 120)),
+    oklch(0.78 0.18 calc(var(--hue) + 180))
+  );
+  border: 2px solid transparent !important;
+  background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box, var(--notice-gradient) border-box !important;
+}
+.notice-happy .notice-text {
+  background: var(--notice-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Keyboard focus styles */
+:where(a, button, input, textarea, select, summary, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
 }

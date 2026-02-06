@@ -1,9 +1,9 @@
 <th:block th:fragment="banner-wrapper">
   <div id="banner-wrapper" class="absolute z-10 w-full overflow-hidden transition duration-700" style="top: -30vh">
     <div id="banner" class="relative h-full overflow-hidden object-cover transition duration-700">
-      <div class="pointer-events-none absolute inset-0 bg-opacity-50 transition dark:bg-black/10"></div>
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/20 transition dark:from-black/20 dark:via-transparent dark:to-black/40"></div>
       <img
-        th:src="${theme.config.base.banner.src}"
+        th:src="${not #strings.isEmpty(theme.config.base.banner.src_url) ? theme.config.base.banner.src_url : theme.config.base.banner.src}"
         alt="Banner image of the blog"
         th:style="|object-position: ${theme.config.base.banner.position}|"
         width="1344"

@@ -33,6 +33,7 @@ spec:
           value:
             enable: true
             src: "/themes/theme-fuwari/assets/images/demo-banner.png"
+            src_url: ""
             position: "center"
             credit:
               enable: false
@@ -46,9 +47,14 @@ spec:
               help: "启用横幅"
             - $formkit: attachment
               name: src
-              label: 图片
+              label: 图片（附件选择）
               value: "/themes/theme-fuwari/assets/images/demo-banner.png"
-              help: "显示的图像"
+              help: "从附件库选择图片，优先级低于下方的自定义URL"
+            - $formkit: text
+              name: src_url
+              label: 图片（自定义URL）
+              value: ""
+              help: "填写任意图片URL（支持外部链接），填写后将覆盖上方附件选择的图片"
             - $formkit: select
               name: position
               label: 位置
@@ -344,6 +350,155 @@ spec:
           name: gongan_link
           label: 公安联网备案跳转链接
           value: https://beian.mps.gov.cn/#/query/webSearch
+
+        - $formkit: textarea
+          name: div
+          label: 悬挂区域
+          help: "自定义备案区域的HTML内容"
+
+    - group: notice
+      label: 公告栏
+      formSchema:
+        - $formkit: checkbox
+          name: enable
+          label: 启用公告栏
+          value: false
+        - $formkit: select
+          name: level
+          label: 公告级别
+          value: info
+          options:
+            - label: 信息 (蓝色)
+              value: info
+            - label: 提示 (绿色)
+              value: tip
+            - label: 重要 (黄色)
+              value: important
+            - label: 警告 (红色)
+              value: warning
+            - label: 庆祝 (渐变彩色)
+              value: happy
+          help: "选择公告栏的显示级别，不同级别会有不同的颜色样式"
+        - $formkit: textarea
+          name: content
+          label: 公告内容
+          value: ""
+          help: "支持HTML内容"
+
+    - group: background
+      label: 背景图
+      formSchema:
+        - $formkit: checkbox
+          name: enable
+          label: 启用背景图
+          value: false
+        - $formkit: text
+          name: src
+          label: 图片URL
+          value: ""
+          help: "背景图片的URL地址（支持外部链接）"
+        - $formkit: select
+          name: position
+          label: 位置
+          value: center
+          options:
+            - label: 居中
+              value: center
+            - label: 顶部
+              value: top
+            - label: 底部
+              value: bottom
+        - $formkit: select
+          name: size
+          label: 尺寸
+          value: cover
+          options:
+            - label: 覆盖
+              value: cover
+            - label: 包含
+              value: contain
+            - label: 自动
+              value: auto
+        - $formkit: select
+          name: attachment
+          label: 固定方式
+          value: fixed
+          options:
+            - label: 固定（视差效果）
+              value: fixed
+            - label: 跟随滚动
+              value: scroll
+        - $formkit: number
+          name: opacity
+          label: 透明度
+          value: 1
+          min: 0
+          max: 1
+          step: 0.1
+          help: "0为完全透明，1为完全不透明"
+
+    - group: analytics
+      label: 访客统计
+      formSchema:
+        - $formkit: checkbox
+          name: enable
+          label: 启用访客统计
+          value: false
+          help: "推荐使用 Umami 自托管分析服务（开源、隐私友好）"
+        - $formkit: text
+          name: script_url
+          label: 脚本地址
+          value: ""
+          help: "Umami 追踪脚本地址，例如: https://analytics.example.com/script.js"
+        - $formkit: text
+          name: website_id
+          label: 网站 ID
+          value: ""
+          help: "Umami 网站 ID，在 Umami 控制台中获取"
+
+    - group: music
+      label: 音乐播放器
+      formSchema:
+        - $formkit: checkbox
+          name: enable
+          label: 启用音乐播放器
+          value: false
+          help: "启用后会在页面右下角显示悬浮音乐播放器（Navidrome/Subsonic API）"
+        - $formkit: text
+          name: server_url
+          label: 服务器地址
+          value: ""
+          help: "Navidrome 服务器地址，例如: https://music.example.com"
+        - $formkit: text
+          name: username
+          label: 用户名
+          value: ""
+        - $formkit: password
+          name: password
+          label: 密码
+          value: ""
+        - $formkit: select
+          name: mode
+          label: 播放模式
+          value: random
+          options:
+            - label: 随机播放
+              value: random
+            - label: 指定歌单
+              value: playlist
+          help: "随机播放从曲库随机获取歌曲，指定歌单则播放选定的播放列表"
+        - $formkit: text
+          name: playlist_id
+          label: 歌单 ID
+          value: ""
+          help: "播放模式为「指定歌单」时填写，在 Navidrome 后台获取"
+        - $formkit: number
+          name: song_count
+          label: 加载歌曲数
+          value: 20
+          min: 1
+          max: 100
+          help: "每次加载的歌曲数量"
 
     - group: development
       label: 开发设置

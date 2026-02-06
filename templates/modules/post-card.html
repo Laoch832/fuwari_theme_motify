@@ -1,12 +1,19 @@
 <th:block th:fragment="card(post,index)">
   <div
-    class="card-base onload-animation relative flex w-full flex-col-reverse overflow-hidden rounded-[var(--radius-large)] md:flex-col"
+    class="card-base card-hover onload-animation relative flex w-full flex-col-reverse overflow-hidden rounded-[var(--radius-large)] md:flex-col"
     th:style="|animation-delay: calc(var(--content-delay) + ${index * 50}ms); --coverWidth: 28%;|"
   >
     <div
       class="relative pb-6 pl-6 pr-6 pt-6 md:pl-9 md:pr-2 md:pt-7"
       th:classappend="${not #strings.isEmpty(post.spec.cover) ? 'w-full md:w-[calc(100%_-_var(--coverWidth)_-_12px)]' : 'w-full md:w-[calc(100%_-_52px_-_12px)]'}"
     >
+      <!-- Pinned Badge -->
+      <th:block th:if="${post.spec.pinned}">
+        <div class="mb-2 inline-flex items-center gap-1 rounded-full bg-[var(--primary)] px-3 py-0.5 text-xs font-bold text-white shadow-sm">
+          <span class="icon-[material-symbols--keep-rounded] text-sm"></span>
+          置顶
+        </div>
+      </th:block>
       <a
         th:href="@{${post.status.permalink}}"
         th:title="${post.spec.title}"
@@ -76,7 +83,7 @@
                     ${thumbnail.gen(post.spec.cover, 'm')} 800w,
                     ${thumbnail.gen(post.spec.cover, 'l')} 1200w|"
           sizes="(max-width: 1200px) 100vw, 1200px"
-          class="h-full w-full object-cover"
+          class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           style="object-position: center"
           loading="lazy"
         />

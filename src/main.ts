@@ -12,6 +12,7 @@ import "./styles/photoswipe.css";
 
 import "overlayscrollbars/overlayscrollbars.css";
 import "photoswipe/style.css";
+import "./styles/music-player.css";
 
 import Alpine from "alpinejs";
 import Swup from "swup";
@@ -29,7 +30,9 @@ import {
 } from "overlayscrollbars";
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 
-import { getHue, setHue } from "./utils/setting-utils";
+import { getHue, setHue, getRainbowMode, setRainbowMode, getRainbowSpeed, setRainbowSpeed, getBgBlur, setBgBlur } from "./utils/setting-utils";
+import { initMusicPlayer } from "./plugins/music-player";
+import { initDistortionText } from "./plugins/distortion-text";
 import { loadButtonScript } from "./widgets/navbar";
 import { setClickOutsideToClose } from "./utils/base-utils";
 import dropdown from "./alpine-data/dropdown";
@@ -91,10 +94,11 @@ function getThemeConfig(): ThemeConfig | undefined {
 
 // 使用
 const themeConfig = getThemeConfig();
-console.log("主题配置：", themeConfig);
+const debugEnabled = !!themeConfig?.development?.enabled;
+if (debugEnabled) console.log("主题配置：", themeConfig);
 
 function mountWidgets() {
-  console.log("Mounting widgets...");
+  if (debugEnabled) console.log("Mounting widgets...");
   const counterContainer = document.querySelector("#counter");
   if (counterContainer) {
     mountCounter(counterContainer as HTMLElement);
@@ -279,16 +283,37 @@ function showBanner() {
 
   banner.classList.remove("opacity-0", "scale-105");
 }
+function initRainbowMode() {
+  if (getRainbowMode()) {
+    setRainbowMode(true);
+    setRainbowSpeed(getRainbowSpeed());
+  }
+}
+
+function initBgBlur() {
+  setBgBlur(getBgBlur());
+}
+
 function init() {
-  // disableAnimation()()		// TODO
   initColorScheme(
     themeConfig?.style.color_scheme as LIGHT_DARK_MODE,
     themeConfig?.style.enable_change_color_scheme as boolean,
   );
   loadHue();
+  initRainbowMode();
+  initBgBlur();
   initCustomScrollbar();
-  initNoteBlocks(); // 新增：初始加载时初始化笔记块
+  initNoteBlocks();
   showBanner();
+  // 初始化音乐播放器（仅初始化一次）
+  if (themeConfig?.music && !document.getElementById("music-player")) {
+    initMusicPlayer(themeConfig.music);
+  }
+  // 初始化扭曲文字效果
+  const distortionEl = document.getElementById("distortion-text");
+  if (distortionEl && !distortionEl.querySelector("canvas")) {
+    initDistortionText(distortionEl, "CANZ");
+  }
 }
 /* Load settings when entering the site */
 
@@ -497,20 +522,4 @@ document.addEventListener("DOMContentLoaded", () => {
   scrollToTopButton.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
-});
-
-swup.hooks.on("visit:start", () => {
-  console.log(window.location.href);
-});
-swup.hooks.on("content:replace", () => {
-  console.log("Content replaced");
-  // mountWidgets();
-  initNoteBlocks(); // 新增：内容替换后额外调用（确保 Swup 钩子中已调用，但这里作为备份）
-});
-
-// 页面初始加载
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM fully loaded and parsed");
-  mountWidgets();
-  initNoteBlocks(); // 新增：DOM 加载后额外调用（确保初始加载生效）
 });
