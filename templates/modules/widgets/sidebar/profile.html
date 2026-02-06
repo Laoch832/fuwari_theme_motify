@@ -71,7 +71,7 @@
           target="_blank"
           class="btn-regular h-10 gap-2 rounded-lg px-3 font-bold active:scale-95"
         >
-          <span class="text-[1.5rem]" th:classappend="${profile.social_media[0].icon}"></span>
+          <span class="text-[1.5rem]" th:classappend="${profile.social_media[0].icon == 'custom' ? profile.social_media[0].custom_icon : profile.social_media[0].icon}"></span>
           [[${profile.social_media[0].name}]]
         </a>
       </th:block>

@@ -487,6 +487,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const toc = document.getElementById("toc-wrapper");
   const navbar = document.getElementById("navbar-wrapper");
   bannerEnabled = !!document.getElementById("banner-wrapper");
+
+  // Set navbar transparent initially on banner pages
+  if (bannerEnabled && navbar) {
+    navbar.classList.add("navbar-transparent");
+  }
   function scrollFunction() {
     const bannerHeight = window.innerHeight * (BANNER_HEIGHT / 100);
 
@@ -516,10 +521,17 @@ document.addEventListener("DOMContentLoaded", () => {
         bannerHeight = BANNER_HEIGHT_HOME;
       }
       const threshold = window.innerHeight * (bannerHeight / 100) - NAVBAR_HEIGHT - MAIN_PANEL_EXCESS_HEIGHT - 16;
-      if (document.body.scrollTop >= threshold || document.documentElement.scrollTop >= threshold) {
+      const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+
+      if (scrollTop >= threshold) {
         navbar.classList.add("navbar-hidden");
+        navbar.classList.remove("navbar-transparent");
+      } else if (scrollTop < 200) {
+        navbar.classList.remove("navbar-hidden");
+        navbar.classList.add("navbar-transparent");
       } else {
         navbar.classList.remove("navbar-hidden");
+        navbar.classList.remove("navbar-transparent");
       }
     }
   }
