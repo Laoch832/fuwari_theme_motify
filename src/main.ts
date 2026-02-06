@@ -33,6 +33,7 @@ import PhotoSwipeLightbox from "photoswipe/lightbox";
 import { getHue, setHue, getRainbowMode, setRainbowMode, getRainbowSpeed, setRainbowSpeed, getBgBlur, setBgBlur } from "./utils/setting-utils";
 import { initMusicPlayer } from "./plugins/music-player";
 import { initDistortionText } from "./plugins/distortion-text";
+import { trackPageVisit, displaySiteStats } from "./plugins/visit-tracker";
 import { loadButtonScript } from "./widgets/navbar";
 import { setClickOutsideToClose } from "./utils/base-utils";
 import dropdown from "./alpine-data/dropdown";
@@ -314,6 +315,13 @@ function init() {
   if (distortionEl && !distortionEl.querySelector("canvas")) {
     initDistortionText(distortionEl, "CANZ");
   }
+  // Halo 内置访客统计
+  if (themeConfig?.analytics?.enable !== false) {
+    trackPageVisit();
+    if (themeConfig?.analytics?.show_site_stats !== false) {
+      displaySiteStats();
+    }
+  }
 }
 /* Load settings when entering the site */
 
@@ -350,7 +358,7 @@ const setup = () => {
   });
   swup.hooks.on("content:replace", (_visit) => {
     // change banner height immediately when a link is clicked
-    const _pageType = _visit.to.document?.body?.getAttribute("date-page-type");
+    const _pageType = _visit.to.document?.body?.getAttribute("data-page-type");
     const bodyElement = document.querySelector("body");
     if (_pageType === "home") {
       bodyElement?.classList.add("is-home");
@@ -358,10 +366,14 @@ const setup = () => {
       bodyElement?.classList.remove("is-home");
     }
     // set the page type to the body element
-    document.body?.setAttribute("date-page-type", _visit.to.document?.body?.getAttribute("date-page-type") || "");
+    document.body?.setAttribute("data-page-type", _visit.to.document?.body?.getAttribute("data-page-type") || "");
 
     initCustomScrollbar();
     initNoteBlocks(); // 新增：内容替换后重新初始化笔记块（SPA 路由关键）
+    // SPA 路由后重新追踪访问
+    if (themeConfig?.analytics?.enable !== false) {
+      trackPageVisit();
+    }
   });
   swup.hooks.on("visit:start", () => {
     // increase the page height during page transition to prevent the scrolling animation from jumping

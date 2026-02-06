@@ -118,14 +118,7 @@
     <th:block th:if="${head != null}">
       <th:block th:replace="${head}" />
     </th:block>
-    <!-- Umami Analytics -->
-    <th:block th:if="${theme.config.analytics != null and theme.config.analytics.enable}">
-      <script
-        defer
-        th:src="${theme.config.analytics.script_url}"
-        th:attr="data-website-id=${theme.config.analytics.website_id}"
-      ></script>
-    </th:block>
+    <!-- 访客统计由 Halo 内置 API 驱动，无需外部脚本 -->
   </head>
 
   <body

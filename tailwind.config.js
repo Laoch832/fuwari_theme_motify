@@ -63,6 +63,11 @@ export default {
         "icon-[material-symbols--skip-previous-rounded]",
         "icon-[material-symbols--skip-next-rounded]",
         "icon-[material-symbols--album]",
+
+        // 访客统计图标
+        "icon-[material-symbols--visibility-outline-rounded]",
+        "icon-[material-symbols--article-outline-rounded]",
+        "icon-[material-symbols--chat-bubble-outline-rounded]",
     ],
     theme: {
         extend: {

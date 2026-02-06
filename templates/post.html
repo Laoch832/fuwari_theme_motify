@@ -4,6 +4,11 @@
   th:replace="~{modules/layout :: html(title = ${post.spec.title +' - '+site.title}, hero = null, content = ~{::content}, head = null, footer = null, sidebar = null, contentClass = null, pageType = 'post')}"
 >
   <th:block th:fragment="content">
+    <!-- Halo 内置访问计数数据 -->
+    <div id="halo-counter-data" style="display:none"
+         data-group="content.halo.run"
+         th:data-name="${post.metadata.name}"
+         data-plural="posts"></div>
     <!-- Post cover image (hero) -->
     <div
       th:if="${not #strings.isEmpty(post.spec.cover)}"

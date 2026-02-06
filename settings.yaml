@@ -443,18 +443,13 @@ spec:
         - $formkit: checkbox
           name: enable
           label: 启用访客统计
-          value: false
-          help: "推荐使用 Umami 自托管分析服务（开源、隐私友好）"
-        - $formkit: text
-          name: script_url
-          label: 脚本地址
-          value: ""
-          help: "Umami 追踪脚本地址，例如: https://analytics.example.com/script.js"
-        - $formkit: text
-          name: website_id
-          label: 网站 ID
-          value: ""
-          help: "Umami 网站 ID，在 Umami 控制台中获取"
+          value: true
+          help: "使用 Halo 内置 API 记录页面浏览量，无需第三方服务"
+        - $formkit: checkbox
+          name: show_site_stats
+          label: 在页脚显示全站统计
+          value: true
+          help: "在页脚展示总访问量、文章数、评论数"
 
     - group: music
       label: 音乐播放器

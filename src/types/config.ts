@@ -7,6 +7,12 @@ export interface ThemeConfig {
   style: Style;
   development: Development;
   music?: MusicConfig;
+  analytics?: AnalyticsConfig;
+}
+
+export interface AnalyticsConfig {
+  enable: boolean;
+  show_site_stats: boolean;
 }
 
 export interface MusicConfig {
